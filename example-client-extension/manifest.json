@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "SMID Client Extension",
+  "version": "1.0",
+  "description": "Extension that uses the SMID Authorization Helper API",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.smartschool.be/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
