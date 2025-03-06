@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SMID Authorization Helper",
-  "version": "1.1.0",
+  "version": "1.0.0.0",
   "description": "Get authorization codes from SMID for 3rd party applications",
   "permissions": [
     "cookies",
@@ -31,5 +31,6 @@
       "resources": ["icons/icon48.png"],
       "matches": ["*://*.smartschool.be/*"]
     }
-  ]
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyeDNMqeLTtejEx8xrMEnjLH7btRPFycunSkh+mqaT8s7DOv6isVxAPkE6cAMKUY+/cbY7x76Psdz4MUqYkZe7IanCTZCxMHZ5HVPK/h0fiynlx455SoX2FZ5shuoTmGwfRKqbr5OO6XEufBskqfm+lQdvnyLGYedcaJVxQbLtGqooeS3kfEqpYpg9XZKSQUCRXEvzKvdBPmw6pVhl9idnFavFg/OQsDnO4aEYXeSOjLmG5xarWpihUD/hDYGYGGqMZL3ALGElRVLgnUkW91juRAOQ9CMAW1pYlhXXM5GuaRsz5xBQXpDstCZputZp2Tt+OQjxIFNGGwOI15b+kdr+wIDAQAB"
 }
