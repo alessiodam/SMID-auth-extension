@@ -1,26 +1,39 @@
 {
   "manifest_version": 3,
   "name": "SMID Authorization Helper",
-  "version": "1.0",
+  "version": "1.1.0",
   "description": "Get authorization codes from SMID for 3rd party applications",
   "permissions": [
     "cookies",
     "tabs"
   ],
   "host_permissions": [
-    "*://*.smartschool.be/*"
+    "*://*.smartschool.be/*",
+    "*://ldev.eu.org/*",
+    "*://smid.alessiodam.dev/*",
+    "http://127.0.0.1:8000/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.smartschool.be/*"],
+      "matches": [
+        "*://*.smartschool.be/*",
+        "*://ldev.eu.org/*",
+        "*://smid.alessiodam.dev/*",
+        "http://127.0.0.1:8000/*"
+        ],
       "js": ["content.js"]
     }
   ],
   "externally_connectable": {
-    "matches": ["*://*.smartschool.be/*"],
+    "matches": [
+      "*://*.smartschool.be/*",
+      "*://ldev.eu.org/*",
+      "*://smid.alessiodam.dev/*",
+      "http://127.0.0.1:8000/*"
+      ],
     "ids": ["*"]
   },
   "icons": {
@@ -31,7 +44,12 @@
   "web_accessible_resources": [
     {
       "resources": ["icons/icon48.png"],
-      "matches": ["*://*.smartschool.be/*"]
+      "matches": [
+        "*://*.smartschool.be/*",
+        "*://ldev.eu.org/*",
+        "*://smid.alessiodam.dev/*",
+        "http://127.0.0.1:8000/*"
+      ]
     }
   ]
 }

@@ -10,7 +10,7 @@ async function getSMIDAuthCode() {
     if (response.success) {
       console.log('Received SMID auth code:', response.data.code);
       console.log('Source:', response.data.source);
-      return response.data;
+      return response.data.code;
     } else {
       console.error('Failed to get SMID auth code:', response.error);
       return null;
@@ -42,12 +42,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     button.addEventListener('click', async () => {
       console.log('Test button clicked');
-      const authData = await getSMIDAuthCode();
-      if (authData) {
-        console.log('Auth code:', authData.code);
-        alert(`SMID Auth Code: ${authData.code}`);
+      const authCode = await getSMIDAuthCode();
+      if (authCode) {
+      console.log('Auth code:', authCode);
+      try {
+        const response = await fetch(`https://smid.alessiodam.dev/v1/user-id?code=${authCode}`);
+        if (response.ok) {
+        const data = await response.json();
+        console.log('User ID:', data.user_id);
+        alert(`SMID User ID: ${data.user_id}`);
+        } else {
+        console.error('Failed to get user ID:', response.status);
+        alert(`SMID Auth Code: ${authCode}\nFailed to get user ID: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+        alert(`SMID Auth Code: ${authCode}\nError fetching user ID`);
+      }
       } else {
-        alert('Failed to get SMID Auth Code');
+      alert('Failed to get SMID Auth Code');
       }
     });
 
