@@ -234,15 +234,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log('Received internal message:', message.action);
 
   switch (message.action) {
-    case 'getCookie':
-      getCookie(message.domain)
-        .then(response => sendResponse(response))
-        .catch(error => {
-          console.error('Error getting cookie:', error);
-          sendResponse({ success: false, error: error.message });
-        });
-      return true;
-
     case 'fetchAuthCode':
       fetchAuthCode(message.phpSessId, message.domain)
         .then(response => sendResponse(response))
