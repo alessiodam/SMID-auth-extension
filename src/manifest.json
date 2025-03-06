@@ -5,7 +5,6 @@
   "description": "Get authorization codes from SMID for 3rd party applications",
   "permissions": [
     "cookies",
-    "storage",
     "tabs"
   ],
   "host_permissions": [

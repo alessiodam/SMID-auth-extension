@@ -1,4 +1,4 @@
-const SMID_EXTENSION_ID = "dhkedejnmcfijkihiaofpoolllfbmbio";
+const SMID_EXTENSION_ID = "poohpalffkmnicfcmdjofoaeagghgmdc";
 
 async function getAuthCodeFromSMID(domain) {
   try {
