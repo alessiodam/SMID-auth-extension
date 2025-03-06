@@ -7,33 +7,18 @@
     "cookies",
     "tabs"
   ],
-  "host_permissions": [
-    "*://*.smartschool.be/*",
-    "*://ldev.eu.org/*",
-    "*://smid.alessiodam.dev/*",
-    "http://127.0.0.1:8000/*"
-  ],
+  "host_permissions": ["*://*.smartschool.be/*"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.smartschool.be/*",
-        "*://ldev.eu.org/*",
-        "*://smid.alessiodam.dev/*",
-        "http://127.0.0.1:8000/*"
-        ],
+      "matches": ["*://*.smartschool.be/*"],
       "js": ["content.js"]
     }
   ],
   "externally_connectable": {
-    "matches": [
-      "*://*.smartschool.be/*",
-      "*://ldev.eu.org/*",
-      "*://smid.alessiodam.dev/*",
-      "http://127.0.0.1:8000/*"
-      ],
+    "matches": ["<all_urls>"],
     "ids": ["*"]
   },
   "icons": {
@@ -44,12 +29,7 @@
   "web_accessible_resources": [
     {
       "resources": ["icons/icon48.png"],
-      "matches": [
-        "*://*.smartschool.be/*",
-        "*://ldev.eu.org/*",
-        "*://smid.alessiodam.dev/*",
-        "http://127.0.0.1:8000/*"
-      ]
+      "matches": ["*://*.smartschool.be/*"]
     }
   ]
 }
