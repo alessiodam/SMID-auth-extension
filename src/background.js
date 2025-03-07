@@ -248,6 +248,11 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     handleExternalAuthRequest(message, sender, sendResponse);
     return true;
   }
+  if (message.action === 'getVersion') {
+    const manifest = chrome.runtime.getManifest();
+    sendResponse({ success: true, version: manifest.version });
+    return false;
+  }
   sendResponse({ success: false, error: 'Invalid action or missing parameters' });
 });
 

@@ -601,3 +601,118 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 });
+
+(function checkForUpdate() {
+  console.log('Checking for SMID update...');
+  const manifest = chrome.runtime.getManifest();
+  const currentVersion = manifest.version;
+
+  fetch("https://api.github.com/repos/alessiodam/SMID-auth-extension/releases/latest")
+    .then(response => response.json())
+    .then(data => {
+      const latestVersion = data.tag_name.replace(/^v/, '');
+      const updateAvailable = latestVersion !== currentVersion;
+
+      if (updateAvailable) {
+        console.log('SMID update available:', latestVersion);
+        const container = document.createElement('div');
+        container.style.cssText = `
+          position: fixed !important;
+          top: 20px !important;
+          right: 20px !important;
+          background: linear-gradient(135deg, #4285F4 0%, #5c9aff 100%) !important;
+          color: white !important;
+          padding: 16px 20px !important;
+          border-radius: 12px !important;
+          z-index: 2147483647 !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3) !important;
+          max-width: 320px !important;
+          animation: smidScaleIn 0.3s ease !important;
+        `;
+
+        const header = document.createElement('div');
+        header.style.cssText = `
+          display: flex !important;
+          align-items: center !important;
+          margin-bottom: 10px !important;
+          gap: 8px !important;
+        `;
+
+        const logo = document.createElement('img');
+        logo.src = chrome.runtime.getURL('/icons/icon48.png');
+        logo.style.cssText = `
+          width: 24px !important;
+          height: 24px !important;
+          border-radius: 6px !important;
+        `;
+
+        const title = document.createElement('strong');
+        title.textContent = 'SMID Update Available';
+        title.style.cssText = `
+          font-size: 15px !important;
+          flex-grow: 1 !important;
+        `;
+
+        const message = document.createElement('p');
+        message.style.cssText = `
+          margin: 0 0 12px 0 !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+        `;
+        message.textContent = `Version ${latestVersion} is now available. Please update to ensure proper functionality.`;
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = data.html_url;
+        downloadLink.target = '_blank';
+        downloadLink.style.cssText = `
+          display: inline-block !important;
+          background: rgba(255, 255, 255, 0.2) !important;
+          color: white !important;
+          text-decoration: none !important;
+          padding: 8px 16px !important;
+          border-radius: 8px !important;
+          font-size: 13px !important;
+          font-weight: 500 !important;
+          transition: all 0.2s ease !important;
+        `;
+        downloadLink.onmouseover = () => {
+          downloadLink.style.background = 'rgba(255, 255, 255, 0.3)';
+        };
+        downloadLink.onmouseout = () => {
+          downloadLink.style.background = 'rgba(255, 255, 255, 0.2)';
+        };
+        downloadLink.textContent = 'Download Update';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.style.cssText = `
+          background: none !important;
+          border: none !important;
+          color: white !important;
+          font-size: 20px !important;
+          cursor: pointer !important;
+          padding: 0 !important;
+          line-height: 1 !important;
+          opacity: 0.8 !important;
+          transition: opacity 0.2s ease !important;
+        `;
+        closeBtn.onmouseover = () => closeBtn.style.opacity = '1';
+        closeBtn.onmouseout = () => closeBtn.style.opacity = '0.8';
+        closeBtn.onclick = () => {
+          container.style.animation = 'smidScaleOut 0.3s ease forwards';
+          setTimeout(() => container.remove(), 300);
+        };
+
+        header.appendChild(logo);
+        header.appendChild(title);
+        header.appendChild(closeBtn);
+        container.appendChild(header);
+        container.appendChild(message);
+        container.appendChild(downloadLink);
+        
+        document.body.appendChild(container);
+      }
+    })
+    .catch(error => console.error('Error checking for SMID update:', error));
+})();
