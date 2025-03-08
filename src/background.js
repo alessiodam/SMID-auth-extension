@@ -1,3 +1,6 @@
+const BASE_API_URL = 'https://smid.alessiodam.dev/v1';
+// const BASE_API_URL = 'http://127.0.0.1:8000/v1';
+
 class RequestManager {
   constructor(expirationTime = 5 * 60 * 1000) {
     this.requests = new Map();
@@ -77,7 +80,7 @@ async function fetchAuthCode(phpSessId, domain) {
       return { success: false, error: 'Missing PHPSESSID value' };
     }
 
-    const apiUrl = `https://smid.alessiodam.dev/v1/auth-code?domain=${encodeURIComponent(domain)}&phpSessId=${encodeURIComponent(phpSessId)}`;
+    const apiUrl = `${BASE_API_URL}/auth-code?domain=${encodeURIComponent(domain)}&phpSessId=${encodeURIComponent(phpSessId)}`;
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'User-Agent': 'SMID-Chrome-Extension' },
