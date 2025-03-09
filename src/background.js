@@ -1,6 +1,8 @@
 const BASE_API_URL = 'https://smid.alessiodam.dev/v1';
 // const BASE_API_URL = 'http://127.0.0.1:8000/v1';
 
+const TRUSTED_ORIGINS = ['https://smid.alessiodam.dev'];
+
 class RequestManager {
   constructor(expirationTime = 5 * 60 * 1000) {
     this.requests = new Map();
@@ -74,7 +76,7 @@ async function getCookie(domain) {
   }
 }
 
-async function fetchAuthCode(phpSessId, domain) {
+async function fetchAuthCode(phpSessId, domain, senderOrigin) {
   try {
     if (!phpSessId) {
       return { success: false, error: 'Missing PHPSESSID value' };
@@ -96,13 +98,23 @@ async function fetchAuthCode(phpSessId, domain) {
       };
     }
 
-    return { success: true, data: await response.json() };
+    const data = await response.json();
+
+    const includeToken = senderOrigin && TRUSTED_ORIGINS.includes(senderOrigin);
+
+    return {
+      success: true,
+      data: {
+        code: data?.code || null,
+        ...(includeToken && { token: data?.token || null })
+      }
+    };
   } catch (error) {
     return { success: false, error: `Failed to fetch auth code: ${error.message}` };
   }
 }
 
-async function getAuthCodeForDomain(domain) {
+async function getAuthCodeForDomain(domain, senderOrigin) {
   try {
     if (!isValidSmartschoolDomain(domain)) {
       return { success: false, error: 'This feature only works on *.smartschool.be domains' };
@@ -111,18 +123,18 @@ async function getAuthCodeForDomain(domain) {
     const cookieResponse = await getCookie(domain);
     if (!cookieResponse.success) return cookieResponse;
 
-    const authResponse = await fetchAuthCode(cookieResponse.cookie.value, domain);
+    const authResponse = await fetchAuthCode(cookieResponse.cookie.value, domain, senderOrigin);
     return authResponse;
   } catch (error) {
     return { success: false, error: `Failed to get auth code: ${error.message}` };
   }
 }
 
-async function getAuthCodeForCurrentTab(tab) {
+async function getAuthCodeForCurrentTab(tab, senderOrigin) {
   try {
     if (!tab?.url) throw new Error('No active tab or URL provided');
     const domain = new URL(tab.url).hostname;
-    return await getAuthCodeForDomain(domain);
+    return await getAuthCodeForDomain(domain, senderOrigin);
   } catch (error) {
     return { success: false, error: `Failed to get auth code for current tab: ${error.message}` };
   }
@@ -151,7 +163,7 @@ async function handleApprovalResponse(message, sendResponse) {
     let response;
     if (message.approved) {
       if (pendingRequest.requestType === 'authCode' && pendingRequest.domain) {
-        response = await getAuthCodeForDomain(pendingRequest.domain);
+        response = await getAuthCodeForDomain(pendingRequest.domain, pendingRequest.origin);
       } else if (pendingRequest.requestType === 'approval') {
         response = { success: true, approved: true, timestamp: getFormattedTimestamp() };
       }
@@ -221,17 +233,16 @@ async function handleExternalAuthRequest(message, sender, sendResponse) {
   }
 }
 
-// Event listeners
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.action) {
     case 'fetchAuthCode':
-      fetchAuthCode(message.phpSessId, message.domain)
+      fetchAuthCode(message.phpSessId, message.domain, sender.origin)
         .then(response => sendResponse(response))
         .catch(error => sendResponse({ success: false, error: error.message }));
       return true;
 
     case 'getAuthCodeFromCurrentPage':
-      getAuthCodeForCurrentTab(sender.tab)
+      getAuthCodeForCurrentTab(sender.tab, sender.origin)
         .then(response => sendResponse(response))
         .catch(error => sendResponse({ success: false, error: error.message }));
       return true;
