@@ -60,9 +60,9 @@ function createApprovalPopup(requestId, extensionId) {
       }
       
       @keyframes smidGlow {
-        0% { box-shadow: 0 0 5px rgba(66, 133, 244, 0.5); }
-        50% { box-shadow: 0 0 20px rgba(66, 133, 244, 0.8); }
-        100% { box-shadow: 0 0 5px rgba(66, 133, 244, 0.5); }
+        0% { box-shadow: 0 0 5px rgba(74, 158, 255, 0.5); }
+        50% { box-shadow: 0 0 20px rgba(74, 158, 255, 0.8); }
+        100% { box-shadow: 0 0 5px rgba(74, 158, 255, 0.5); }
       }
       
       @keyframes smidGradientFlow {
@@ -74,13 +74,13 @@ function createApprovalPopup(requestId, extensionId) {
       .smid-btn {
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         z-index: 1;
       }
       
       .smid-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
       }
       
       .smid-btn:active {
@@ -109,37 +109,22 @@ function createApprovalPopup(requestId, extensionId) {
       }
       
       .smid-glass-effect {
-        background: rgba(30, 30, 30, 0.8);
+        background: #1a1a1a;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid #2a2a2a;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       }
       
       .smid-gradient-border {
         position: relative;
-        border-radius: 16px;
-        padding: 1px;
-        background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
-        background-size: 400% 400%;
-        animation: smidGradientFlow 3s ease infinite;
-      }
-      
-      .smid-gradient-border::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 15px;
-        background: #1a1a1a;
-        margin: 1px;
-        z-index: -1;
+        border-radius: 8px;
+        padding: 0;
+        background: none;
       }
       
       .smid-powered-link {
-        color: #4285F4;
+        color: #4a9eff;
         text-decoration: none;
         font-size: 12px;
         transition: all 0.2s ease;
@@ -204,23 +189,24 @@ function createApprovalPopup(requestId, extensionId) {
     z-index: 2147483647 !important;
     opacity: 1 !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 8px !important;
   `;
 
   const innerContent = document.createElement('div');
   innerContent.className = 'smid-glass-effect';
   innerContent.style.cssText = `
-    border-radius: 15px !important;
-    color: #f5f5f5 !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    border-radius: 8px !important;
+    color: #e0e0e0 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     padding: 0 !important;
     overflow: hidden !important;
   `;
 
   const header = document.createElement('div');
   header.style.cssText = `
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-    padding: 24px 24px 20px 24px !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%) !important;
+    padding: 24px !important;
+    border-bottom: 1px solid #2a2a2a !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -229,9 +215,10 @@ function createApprovalPopup(requestId, extensionId) {
 
   const logoContainer = document.createElement('div');
   logoContainer.style.cssText = `
-    background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%) !important;
-    border-radius: 16px !important;
-    padding: 16px !important;
+    background: #0f0f0f !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
     margin-bottom: 16px !important;
     animation: smidPulse 2s infinite ease-in-out, smidGlow 3s infinite ease-in-out !important;
     display: inline-flex !important;
@@ -244,8 +231,8 @@ function createApprovalPopup(requestId, extensionId) {
   logoImg.style.cssText = `
     width: 56px !important;
     height: 56px !important;
-    border-radius: 12px !important;
-    background-color: #4285F4 !important;
+    border-radius: 6px !important;
+    background-color: #4a9eff !important;
   `;
   logoContainer.appendChild(logoImg);
   
@@ -253,9 +240,10 @@ function createApprovalPopup(requestId, extensionId) {
   title.textContent = "Authorization Request";
   title.style.cssText = `
     margin: 0 0 8px 0 !important;
-    font-size: 22px !important;
-    font-weight: 600 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
     color: #ffffff !important;
+    letter-spacing: -0.5px !important;
   `;
   
   const timestampEl = document.createElement('p');
@@ -263,7 +251,7 @@ function createApprovalPopup(requestId, extensionId) {
   timestampEl.style.cssText = `
     margin: 0 !important;
     font-size: 13px !important;
-    color: #a0a0a0 !important;
+    color: #888 !important;
   `;
   
   header.appendChild(logoContainer);
@@ -279,17 +267,18 @@ function createApprovalPopup(requestId, extensionId) {
   const extensionInfo = document.createElement('div');
   extensionInfo.style.cssText = `
     margin-bottom: 20px !important;
-    background: rgba(37, 37, 37, 0.7) !important;
-    padding: 18px !important;
-    border-radius: 12px !important;
-    border-left: 4px solid #4285F4 !important;
+    background: #0f0f0f !important;
+    padding: 16px !important;
+    border-radius: 6px !important;
+    border: 1px solid #2a2a2a !important;
+    border-left: 4px solid #4a9eff !important;
   `;
   
   const infoText = document.createElement('p');
   infoText.textContent = "An extension is requesting access to your SMID authorization code:";
   infoText.style.cssText = `
     margin: 0 0 14px 0 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     line-height: 1.5 !important;
     color: #e0e0e0 !important;
   `;
@@ -298,18 +287,19 @@ function createApprovalPopup(requestId, extensionId) {
   extensionIdContainer.style.cssText = `
     display: flex !important;
     align-items: center !important;
-    background: rgba(45, 45, 45, 0.7) !important;
+    background: #0f0f0f !important;
     padding: 12px !important;
-    border-radius: 10px !important;
+    border-radius: 6px !important;
+    border: 1px solid #2a2a2a !important;
   `;
   
   const extensionIdLabel = document.createElement('span');
   extensionIdLabel.textContent = "Extension ID:";
   extensionIdLabel.style.cssText = `
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
     margin-right: 8px !important;
-    color: #c0c0c0 !important;
+    color: #888 !important;
   `;
   
   const extensionIdLink = document.createElement('a');
@@ -317,15 +307,23 @@ function createApprovalPopup(requestId, extensionId) {
   extensionIdLink.target = "_blank";
   extensionIdLink.textContent = extensionId;
   extensionIdLink.style.cssText = `
-    color: #4285F4 !important;
+    color: #4a9eff !important;
     text-decoration: none !important;
-    font-size: 14px !important;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !important;
+    font-size: 13px !important;
+    font-family: 'Courier New', monospace !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     max-width: 220px !important;
+    transition: color 0.2s ease !important;
   `;
+  
+  extensionIdLink.addEventListener('mouseenter', () => {
+    extensionIdLink.style.color = '#5c9aff';
+  });
+  extensionIdLink.addEventListener('mouseleave', () => {
+    extensionIdLink.style.color = '#4a9eff';
+  });
   
   extensionIdContainer.appendChild(extensionIdLabel);
   extensionIdContainer.appendChild(extensionIdLink);
@@ -335,11 +333,12 @@ function createApprovalPopup(requestId, extensionId) {
   const privacyInfo = document.createElement('div');
   privacyInfo.style.cssText = `
     margin-bottom: 20px !important;
-    font-size: 14px !important;
-    color: #d0d0d0 !important;
-    background: rgba(42, 42, 42, 0.7) !important;
-    padding: 18px !important;
-    border-radius: 12px !important;
+    font-size: 13px !important;
+    color: #b0b0b0 !important;
+    background: #0f0f0f !important;
+    padding: 16px !important;
+    border-radius: 6px !important;
+    border: 1px solid #2a2a2a !important;
     line-height: 1.5 !important;
   `;
   
@@ -363,7 +362,7 @@ function createApprovalPopup(requestId, extensionId) {
   buttonsContainer.style.cssText = `
     display: flex !important;
     justify-content: space-between !important;
-    gap: 16px !important;
+    gap: 12px !important;
     margin-bottom: 16px !important;
   `;
   
@@ -373,16 +372,26 @@ function createApprovalPopup(requestId, extensionId) {
   denyButton.textContent = "Deny";
   denyButton.style.cssText = `
     flex: 1 !important;
-    background-color: #3a3a3a !important;
-    color: white !important;
-    border: none !important;
-    padding: 14px !important;
-    border-radius: 10px !important;
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #3a3a3a !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
     cursor: pointer !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
   `;
+  
+  denyButton.addEventListener('mouseenter', () => {
+    denyButton.style.backgroundColor = '#3a3a3a';
+    denyButton.style.borderColor = '#4a4a4a';
+  });
+  denyButton.addEventListener('mouseleave', () => {
+    denyButton.style.backgroundColor = '#2a2a2a';
+    denyButton.style.borderColor = '#3a3a3a';
+  });
   
   const approveButton = document.createElement('button');
   approveButton.id = `${approvalId}-approve`;
@@ -390,17 +399,29 @@ function createApprovalPopup(requestId, extensionId) {
   approveButton.textContent = "Approve";
   approveButton.style.cssText = `
     flex: 1 !important;
-    background: linear-gradient(135deg, #4285F4 0%, #5c9aff 100%) !important;
-    color: white !important;
+    background: #4a9eff !important;
+    color: #000 !important;
     border: none !important;
-    padding: 14px !important;
-    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
     cursor: pointer !important;
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3) !important;
   `;
+  
+  approveButton.addEventListener('mouseenter', () => {
+    approveButton.style.backgroundColor = '#3a8ee5';
+    approveButton.style.transform = 'translateY(-1px)';
+    approveButton.style.boxShadow = '0 6px 16px rgba(74, 158, 255, 0.4)';
+  });
+  approveButton.addEventListener('mouseleave', () => {
+    approveButton.style.backgroundColor = '#4a9eff';
+    approveButton.style.transform = 'translateY(0)';
+    approveButton.style.boxShadow = '0 4px 12px rgba(74, 158, 255, 0.3)';
+  });
   
   buttonsContainer.appendChild(denyButton);
   buttonsContainer.appendChild(approveButton);
@@ -419,7 +440,7 @@ function createApprovalPopup(requestId, extensionId) {
   poweredByContainer.style.cssText = `
     text-align: center !important;
     font-size: 12px !important;
-    color: #888 !important;
+    color: #666 !important;
     margin-top: 4px !important;
   `;
   
@@ -472,7 +493,7 @@ function createApprovalPopup(requestId, extensionId) {
             height: 100px;
             border-radius: 50%;
             border: 4px solid transparent;
-            border-top-color: #4285F4;
+            border-top-color: #4a9eff;
             animation: smidSpin 1s linear infinite;
           "></div>
           <div style="
@@ -482,7 +503,7 @@ function createApprovalPopup(requestId, extensionId) {
             margin: 7.5px;
             border-radius: 50%;
             border: 4px solid transparent;
-            border-top-color: #5cb85c;
+            border-top-color: #34d399;
             animation: smidSpin 1.5s linear infinite reverse;
           "></div>
           <div style="
@@ -492,7 +513,7 @@ function createApprovalPopup(requestId, extensionId) {
             margin: 15px;
             border-radius: 50%;
             border: 4px solid transparent;
-            border-top-color: #f0ad4e;
+            border-top-color: #4a9eff;
             animation: smidSpin 2s linear infinite;
           "></div>
         </div>
@@ -502,12 +523,12 @@ function createApprovalPopup(requestId, extensionId) {
         animationContainer.innerHTML = `
           <div style="text-align: center;">
             <svg width="120" height="120" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="54" fill="none" stroke="#4285F4" stroke-width="4" 
+              <circle cx="60" cy="60" r="54" fill="none" stroke="#4a9eff" stroke-width="4" 
                 style="stroke-dasharray: 380; stroke-dashoffset: 380; animation: smidCheckmarkCircle 1s ease forwards;" />
-              <polyline points="40,60 55,75 80,45" fill="none" stroke="#5cb85c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+              <polyline points="40,60 55,75 80,45" fill="none" stroke="#34d399" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
                 style="stroke-dasharray: 100; stroke-dashoffset: 100; animation: smidCheckmark 1s ease forwards;" />
             </svg>
-            <p style="margin-top: 10px; font-size: 16px; color: #5cb85c; font-weight: 500;">Access Granted</p>
+            <p style="margin-top: 10px; font-size: 15px; color: #34d399; font-weight: 500;">Access Granted</p>
           </div>
         `;
         
@@ -555,14 +576,14 @@ function createApprovalPopup(requestId, extensionId) {
       animationContainer.innerHTML = `
         <div style="text-align: center;">
           <svg width="120" height="120" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="54" fill="none" stroke="#f44336" stroke-width="4" 
+            <circle cx="60" cy="60" r="54" fill="none" stroke="#ef4444" stroke-width="4" 
               style="stroke-dasharray: 380; stroke-dashoffset: 380; animation: smidCheckmarkCircle 0.8s ease forwards;" />
-            <line x1="42" y1="42" x2="78" y2="78" stroke="#f44336" stroke-width="6" stroke-linecap="round"
+            <line x1="42" y1="42" x2="78" y2="78" stroke="#ef4444" stroke-width="6" stroke-linecap="round"
               style="stroke-dasharray: 100; stroke-dashoffset: 100; animation: smidDenied 0.8s ease forwards 0.2s;" />
-            <line x1="78" y1="42" x2="42" y2="78" stroke="#f44336" stroke-width="6" stroke-linecap="round"
+            <line x1="78" y1="42" x2="42" y2="78" stroke="#ef4444" stroke-width="6" stroke-linecap="round"
               style="stroke-dasharray: 100; stroke-dashoffset: 100; animation: smidDenied 0.8s ease forwards 0.2s;" />
           </svg>
-          <p style="margin-top: 10px; font-size: 16px; color: #f44336; font-weight: 500;">Access Denied</p>
+          <p style="margin-top: 10px; font-size: 15px; color: #ef4444; font-weight: 500;">Access Denied</p>
         </div>
       `;
       
@@ -620,13 +641,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           position: fixed !important;
           top: 20px !important;
           right: 20px !important;
-          background: linear-gradient(135deg, #4285F4 0%, #5c9aff 100%) !important;
-          color: white !important;
+          background: linear-gradient(135deg, #4a9eff 0%, #5c9aff 100%) !important;
+          color: #000 !important;
           padding: 16px 20px !important;
-          border-radius: 12px !important;
+          border-radius: 6px !important;
           z-index: 2147483647 !important;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-          box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3) !important;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3) !important;
           max-width: 320px !important;
           animation: smidScaleIn 0.3s ease !important;
         `;
@@ -652,6 +673,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         title.style.cssText = `
           font-size: 15px !important;
           flex-grow: 1 !important;
+          color: #000 !important;
         `;
 
         const message = document.createElement('p');
@@ -659,6 +681,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           margin: 0 0 12px 0 !important;
           font-size: 14px !important;
           line-height: 1.5 !important;
+          color: #000 !important;
         `;
         message.textContent = `Version ${latestVersion} is now available. Please update to ensure proper functionality.`;
 
@@ -667,20 +690,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         downloadLink.target = '_blank';
         downloadLink.style.cssText = `
           display: inline-block !important;
-          background: rgba(255, 255, 255, 0.2) !important;
-          color: white !important;
+          background: rgba(0, 0, 0, 0.1) !important;
+          color: #000 !important;
           text-decoration: none !important;
           padding: 8px 16px !important;
-          border-radius: 8px !important;
+          border-radius: 6px !important;
           font-size: 13px !important;
           font-weight: 500 !important;
           transition: all 0.2s ease !important;
         `;
         downloadLink.onmouseover = () => {
-          downloadLink.style.background = 'rgba(255, 255, 255, 0.3)';
+          downloadLink.style.background = 'rgba(0, 0, 0, 0.15)';
         };
         downloadLink.onmouseout = () => {
-          downloadLink.style.background = 'rgba(255, 255, 255, 0.2)';
+          downloadLink.style.background = 'rgba(0, 0, 0, 0.1)';
         };
         downloadLink.textContent = 'Download Update';
 
@@ -689,7 +712,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         closeBtn.style.cssText = `
           background: none !important;
           border: none !important;
-          color: white !important;
+          color: #000 !important;
           font-size: 20px !important;
           cursor: pointer !important;
           padding: 0 !important;

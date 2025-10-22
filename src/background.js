@@ -1,7 +1,10 @@
-const BASE_API_URL = 'https://smid.alessiodam.dev/v1';
-// const BASE_API_URL = 'http://127.0.0.1:8000/v1';
+//const BASE_API_URL = 'https://smid.alessiodam.dev/v1';
+const BASE_API_URL = 'http://127.0.0.1:8000/v1';
 
-const TRUSTED_ORIGINS = ['https://smid.alessiodam.dev'];
+const TRUSTED_ORIGINS = [
+  'https://smid.alessiodam.dev'
+  ,'http://127.0.0.1:8000'
+];
 
 class RequestManager {
   constructor(expirationTime = 5 * 60 * 1000) {
