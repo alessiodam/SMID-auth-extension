@@ -110,8 +110,6 @@ function createApprovalPopup(requestId, extensionId) {
       
       .smid-glass-effect {
         background: #1a1a1a;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border: 1px solid #2a2a2a;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       }
@@ -158,7 +156,7 @@ function createApprovalPopup(requestId, extensionId) {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.6) !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
     z-index: 2147483646 !important;
     opacity: 1 !important;
     display: flex !important;
@@ -190,6 +188,7 @@ function createApprovalPopup(requestId, extensionId) {
     opacity: 1 !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
     border-radius: 8px !important;
+    animation: smidScaleIn 0.3s ease !important;
   `;
 
   const innerContent = document.createElement('div');
@@ -469,11 +468,8 @@ function createApprovalPopup(requestId, extensionId) {
   approvalDiv.appendChild(innerContent);
   document.body.appendChild(approvalDiv);
   
-  console.log("SMID approval popup created:", approvalId);
-  
   document.getElementById(`${approvalId}-approve`).addEventListener('click', async function() {
     try {
-      console.log("Approve button clicked");
       const approveBtn = document.getElementById(`${approvalId}-approve`);
       const denyBtn = document.getElementById(`${approvalId}-deny`);
       const buttonsContainer = document.getElementById(`${approvalId}-buttons`);
@@ -538,7 +534,6 @@ function createApprovalPopup(requestId, extensionId) {
             requestId: requestId,
             approved: true
           }).then(() => {
-            console.log("Request approved and message sent");
             const popup = document.getElementById(approvalId);
             const overlay = document.getElementById(`${approvalId}-overlay`);
             
@@ -550,18 +545,15 @@ function createApprovalPopup(requestId, extensionId) {
               overlay.remove();
             }
           }).catch(error => {
-            console.error("Error sending approval message:", error);
           });
         }, 1000);
       }, 800);
     } catch (error) {
-      console.error('Error approving request:', error);
     }
   });
   
   document.getElementById(`${approvalId}-deny`).addEventListener('click', async function() {
     try {
-      console.log("Deny button clicked");
       const approveBtn = document.getElementById(`${approvalId}-approve`);
       const denyBtn = document.getElementById(`${approvalId}-deny`);
       const buttonsContainer = document.getElementById(`${approvalId}-buttons`);
@@ -593,7 +585,6 @@ function createApprovalPopup(requestId, extensionId) {
           requestId: requestId,
           approved: false
         }).then(() => {
-          console.log("Request denied and message sent");
           const popup = document.getElementById(approvalId);
           const overlay = document.getElementById(`${approvalId}-overlay`);
           
@@ -605,18 +596,15 @@ function createApprovalPopup(requestId, extensionId) {
             overlay.remove();
           }
         }).catch(error => {
-          console.error("Error sending denial message:", error);
         });
       }, 1000);
     } catch (error) {
-      console.error('Error denying request:', error);
     }
   });
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'showApprovalPopup') {
-    console.log("Received showApprovalPopup message:", message);
     createApprovalPopup(message.requestId, message.extensionId);
     sendResponse({ success: true });
     return true;
@@ -624,7 +612,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 (function checkForUpdate() {
-  console.log('Checking for SMID update...');
   const manifest = chrome.runtime.getManifest();
   const currentVersion = manifest.version;
 
@@ -635,7 +622,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const updateAvailable = latestVersion !== currentVersion;
 
       if (updateAvailable) {
-        console.log('SMID update available:', latestVersion);
         const container = document.createElement('div');
         container.style.cssText = `
           position: fixed !important;
@@ -737,5 +723,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         document.body.appendChild(container);
       }
     })
-    .catch(error => console.error('Error checking for SMID update:', error));
+    .catch(error => {});
 })();
